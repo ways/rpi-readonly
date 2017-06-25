@@ -1,0 +1,5 @@
+mount -o remount,rw /
+history -a
+fake-hwclock save
+mount -o remount,ro /
+mount -o remount,ro /boot

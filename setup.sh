@@ -14,7 +14,7 @@ apt-get remove --purge wolfram-engine triggerhappy anacron logrotate dphys-swapf
 insserv -r x11-common;
 apt-get autoremove --purge
 
-apt-get install busybox-syslogd ntp watchdog
+apt-get install busybox-syslogd ntp watchdog screen vim-nox
 dpkg --purge rsyslog
 
 cp /boot/cmdline.txt /boot/cmdline.txt.backup
@@ -29,21 +29,7 @@ touch /tmp/dhcpcd.resolv.conf;
 ln -s /tmp/dhcpcd.resolv.conf /etc/resolv.conf
 
 cp /etc/systemd/system/dhcpcd5 /etc/systemd/system/dhcpcd5.backup
-sed -i '/PIDFile/cPIDFile=/var/run/dhcpcd.pid' /etc/systemd/system/dhcpcd5
-echo "[Unit]
-Description=dhcpcd on all interfaces
-Wants=network.target
-Before=network.target
- 
-[Service]
-Type=forking
-PIDFile=/var/run/dhcpcd.pid
-ExecStart=/sbin/dhcpcd -q -b
-ExecStop=/sbin/dhcpcd -x
- 
-[Install]
-WantedBy=multi-user.target
-Alias=dhcpcd5" > /etc/systemd/system/dhcpcd5
+sed -i '/PIDFile/c\PIDFile=\/var\/run\/dhcpcd.pid' /etc/systemd/system/dhcpcd5
 
 rm /var/lib/systemd/random-seed
 ln -s /tmp/random-seed /var/lib/systemd/random-seed
@@ -71,37 +57,22 @@ if (command -v fake-hwclock >/dev/null 2>&1) ; then
 fi" > /etc/cron.hourly/fake-hwclock
 
 cp /etc/ntp.conf /etc/ntp.conf.backup
-sed -i '/driftfile/c\/var\/tmp\/ntp.drift' /etc/ntp.conf
+sed -i '/driftfile/c\\/var\/tmp\/ntp.drift' /etc/ntp.conf
 
 insserv -r bootlogs
 insserv -r console-setup
 
 cp /etc/fstab /etc/fstab.backup
-sed -i '/noatime/noatime,ro' /etc/fstab
+sed -i '/noatime /noatime,ro' /etc/fstab
 
 echo "# For Debian Jessie 
 tmpfs           /tmp            tmpfs   nosuid,nodev         0       0
 tmpfs           /var/log        tmpfs   nosuid,nodev         0       0
 tmpfs           /var/tmp        tmpfs   nosuid,nodev         0       0" >> /etc/fstab
 
-echo "# set variable identifying the filesystem you work in (used in the prompt below)
-set_bash_prompt(){
-    fs_mode=$(mount | sed -n -e "s/^\/dev\/.* on \/ .*(\(r[w|o]\).*/\1/p")
-    PS1='\[\033[01;32m\]\u@\h${fs_mode:+($fs_mode)}\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\$ '
-}
- 
-alias ro='sudo mount -o remount,ro / ; sudo mount -o remount,ro /boot'
-alias rw='sudo mount -o remount,rw / ; sudo mount -o remount,rw /boot'
- 
-# setup fancy prompt
-PROMPT_COMMAND=set_bash_prompt
-" >> /etc/bash.bashrc
+echo ./bash.bashrc.addon >> /etc/bash.bashrc
 
-echo "mount -o remount,rw /
-history -a
-fake-hwclock save
-mount -o remount,ro /
-mount -o remount,ro /boot" >> /etc/bash.bash_logout
+echo bash.bash_logout.addon >> /etc/bash.bash_logout
 
 echo "watchdog-device  = /dev/watchdog
 max-load-15      = 25  
