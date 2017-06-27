@@ -63,23 +63,29 @@ insserv -r bootlogs
 insserv -r console-setup
 
 cp /etc/fstab /etc/fstab.backup
-sed -i '/noatime /noatime,ro' /etc/fstab
+#TODO:
+sed -i '/noatime\t/noatime,ro' /etc/fstab
 
 echo "# For Debian Jessie 
 tmpfs           /tmp            tmpfs   nosuid,nodev         0       0
 tmpfs           /var/log        tmpfs   nosuid,nodev         0       0
 tmpfs           /var/tmp        tmpfs   nosuid,nodev         0       0" >> /etc/fstab
 
+#TODO: make repeatable
 echo ./bash.bashrc.addon >> /etc/bash.bashrc
 
+#TODO: make repeatable
 echo bash.bash_logout.addon >> /etc/bash.bash_logout
 
+#TODO: make repeatable
 echo "watchdog-device  = /dev/watchdog
 max-load-15      = 25  
 watchdog-timeout = 10" >> /etc/watchdog.conf
 
+#TODO: make repeatable
 echo "WantedBy=multi-user.target" >> /lib/systemd/system/watchdog.service
+
+echo "kernel.panic = 10" > /etc/sysctl.d/01-panic.conf
 
 echo "Watchdog installed, but not enabled. To enable, run sudo systemctl enable watchdog"
 
-echo "kernel.panic = 10" >> /etc/sysctl.conf
