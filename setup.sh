@@ -1,4 +1,4 @@
-#!/bin/bash -ex
+#!/bin/bash -x
 
 # Based on https://hallard.me/raspberry-pi-read-only/
 
