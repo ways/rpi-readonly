@@ -4,7 +4,7 @@
 
 echo "Warning: this will not ask questions, just go for it. Backups are made where it makes sense, but please don't run this on anything but a fresh install of Raspbian (jessie). Run as root ( sudo ${0} )."
 
-if 'root' != $( whoami ) ; then
+if [ 'root' != $( whoami ) ] ; then
   echo "Please run as root!"
   exit 1;
 fi
