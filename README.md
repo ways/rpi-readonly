@@ -7,5 +7,6 @@ Will also prepare but not enable watchdog.
 
 TODO:
 * Test
+* Currently breaks wifi
 * A few operations are not repeatable, fix.
 * force installs/uninstalls?
