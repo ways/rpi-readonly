@@ -28,8 +28,8 @@ ln -s /tmp /var/lock
 touch /tmp/dhcpcd.resolv.conf;
 ln -s /tmp/dhcpcd.resolv.conf /etc/resolv.conf
 
-cp /etc/systemd/system/dhcpcd5 /etc/systemd/system/dhcpcd5.backup
-sed -i '/PIDFile/c\PIDFile=\/var\/run\/dhcpcd.pid' /etc/systemd/system/dhcpcd5
+#cp /etc/systemd/system/dhcpcd5 /etc/systemd/system/dhcpcd5.backup
+#sed -i '/PIDFile/c\PIDFile=\/var\/run\/dhcpcd.pid' /etc/systemd/system/dhcpcd5
 
 rm /var/lib/systemd/random-seed
 ln -s /tmp/random-seed /var/lib/systemd/random-seed
