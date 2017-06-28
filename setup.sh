@@ -57,13 +57,13 @@ if (command -v fake-hwclock >/dev/null 2>&1) ; then
 fi" > /etc/cron.hourly/fake-hwclock
 
 cp /etc/ntp.conf /etc/ntp.conf.backup
-sed -i '/driftfile/c\\/var\/tmp\/ntp.drift' /etc/ntp.conf
+sed -i '/driftfile/c\driftfile \/var\/tmp\/ntp.drift' /etc/ntp.conf
 
 insserv -r bootlogs
 insserv -r console-setup
 
 cp /etc/fstab /etc/fstab.backup
-#TODO:
+#TODO: doesn't work
 sed -i '/noatime\t/noatime,ro' /etc/fstab
 
 echo "# For Debian Jessie 
