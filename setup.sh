@@ -75,7 +75,7 @@ tmpfs           /var/tmp        tmpfs   nosuid,nodev         0       0" >> /etc/
 cat ./bash.bashrc.addon >> /etc/bash.bashrc
 
 #TODO: make repeatable
-echo bash.bash_logout.addon >> /etc/bash.bash_logout
+cat ./bash.bash_logout.addon >> /etc/bash.bash_logout
 
 #TODO: make repeatable
 echo "watchdog-device  = /dev/watchdog
