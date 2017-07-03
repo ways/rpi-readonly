@@ -87,5 +87,7 @@ echo "WantedBy=multi-user.target" >> /lib/systemd/system/watchdog.service
 
 echo "kernel.panic = 10" > /etc/sysctl.d/01-panic.conf
 
+echo "options bcm2835_wdt nowayout=1" > /etc/modprobe.d/watchdog.conf
+
 echo "Watchdog installed, but not enabled. To enable, run sudo systemctl enable watchdog"
 
