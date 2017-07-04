@@ -9,9 +9,8 @@ if [ 'root' != $( whoami ) ] ; then
   exit 1;
 fi
 
-apt-get remove --purge wolfram-engine triggerhappy anacron logrotate dphys-swapfile xserver-common lightdm sonic-pi
+apt-get remove --purge wolfram-engine triggerhappy anacron logrotate dphys-swapfile sonic-pi
 
-insserv -r x11-common;
 apt-get autoremove --purge
 
 apt-get install busybox-syslogd ntp watchdog screen vim-nox
