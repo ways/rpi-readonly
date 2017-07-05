@@ -9,11 +9,14 @@ if [ 'root' != $( whoami ) ] ; then
   exit 1;
 fi
 
-apt-get remove --purge wolfram-engine triggerhappy anacron logrotate dphys-swapfile sonic-pi
-
-apt-get autoremove --purge
-
-apt-get install busybox-syslogd ntp watchdog screen vim-nox
+apt-get update \
+	&& apt-get install busybox-syslogd ntp watchdog screen vim-nox \
+	&& apt-get remove --purge wolfram-engine triggerhappy anacron logrotate dphys-swapfile sonic-pi \
+	apt-get autoremove --purge \
+	|| {
+	echo "Failed to perform apt operations."
+	exit 1;
+	}
 dpkg --purge rsyslog
 
 cp /boot/cmdline.txt /boot/cmdline.txt.backup
