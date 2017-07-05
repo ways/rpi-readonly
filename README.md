@@ -11,4 +11,5 @@ TODO:
 * Test
 * A few operations are not repeatable, fix.
 * force installs/uninstalls?
-
+* Make sure xorg can still work.
+* Check all TODOs in setup.sh

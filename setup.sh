@@ -71,6 +71,7 @@ sed -i '/noatime\t/noatime,ro' /etc/fstab
 echo "# For Debian Jessie 
 tmpfs           /tmp            tmpfs   nosuid,nodev         0       0
 tmpfs           /var/log        tmpfs   nosuid,nodev         0       0
+tmpfs           /var/lib/lightdm        tmpfs   nosuid,nodev         0       0
 tmpfs           /var/tmp        tmpfs   nosuid,nodev         0       0" >> /etc/fstab
 
 #TODO: make repeatable
@@ -93,3 +94,5 @@ echo "options bcm2835_wdt nowayout=1" > /etc/modprobe.d/watchdog.conf
 
 echo "Watchdog installed, but not enabled. To enable, run sudo systemctl enable watchdog"
 
+#TODO: lightdm config:
+# set user-authority-in-system-dir=true in /etc/lightdm/lightdm.conf
