@@ -13,3 +13,4 @@ TODO:
 * force installs/uninstalls?
 * Make sure xorg can still work.
 * Check all TODOs in setup.sh
+* Check if https://github.com/MarkDurbin104/rPi-ReadOnly has anything I'm missing.
