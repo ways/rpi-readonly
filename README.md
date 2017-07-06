@@ -5,13 +5,10 @@ Based on https://hallard.me/raspberry-pi-read-only/
 
 Will also:
 * prepare but not enable watchdog.
-* remove software usually not needed on headless systems
+* remove software usually not needed
 
 TODO:
-* Test
-* A few operations are not repeatable, fix.
-* force installs/uninstalls?
-* Make sure xorg can still work.
+* Ask before install/remove software
 * Check all TODOs in setup.sh
 * Check if https://github.com/MarkDurbin104/rPi-ReadOnly has anything I'm missing.
 
