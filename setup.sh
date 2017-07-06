@@ -17,13 +17,9 @@ echo "* Installing some needed software..."
 apt install busybox-syslogd ntp watchdog screen vim-nox
 
 echo "*Removing some unneeded software..."
-apt remove --purge wolfram-engine triggerhappy anacron logrotate dphys-swapfile sonic-pi && \
-  apt autoremove --purge && \
-  dpkg --purge rsyslog
-  || {
-    echo "Failed to perform apt operations."
-    exit 1;
-  }
+apt remove --purge wolfram-engine triggerhappy anacron logrotate dphys-swapfile sonic-pi
+aptitude autoremove
+dpkg --purge rsyslog
 
 echo "* Changing boot up parameters."
 cp /boot/cmdline.txt /boot/cmdline.txt.backup
