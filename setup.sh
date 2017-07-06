@@ -9,10 +9,10 @@ if [ 'root' != $( whoami ) ] ; then
   exit 1;
 fi
 
-apt-get update \
-	&& apt-get install busybox-syslogd ntp watchdog screen vim-nox \
-	&& apt-get remove --purge wolfram-engine triggerhappy anacron logrotate dphys-swapfile sonic-pi \
-	apt-get autoremove --purge \
+apt update \
+	&& apt install busybox-syslogd ntp watchdog screen vim-nox \
+	&& apt remove --purge wolfram-engine triggerhappy anacron logrotate dphys-swapfile sonic-pi \
+	apt autoremove --purge \
 	|| {
 	echo "Failed to perform apt operations."
 	exit 1;
