@@ -18,7 +18,7 @@ apt install busybox-syslogd ntp watchdog screen vim-nox
 
 echo "*Removing some unneeded software..."
 apt remove --purge wolfram-engine triggerhappy anacron logrotate dphys-swapfile sonic-pi
-aptitude autoremove
+aptitude remove
 dpkg --purge rsyslog
 
 echo "* Changing boot up parameters."
@@ -52,7 +52,7 @@ ExecStop=/lib/systemd/systemd-random-seed save" > /lib/systemd/system/systemd-ra
 systemctl daemon-reload
 
 cp /etc/cron.hourly/fake-hwclock /etc/cron.hourly/fake-hwclock.backup
-cat < EOF > /etc/cron.hourly/fake-hwclock
+cat > /etc/cron.hourly/fake-hwclock << EOF
 #!/bin/sh
 #
 # Simple cron script - save the current clock periodically in case of
