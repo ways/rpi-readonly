@@ -94,6 +94,7 @@ if [ 0 -eq $( grep -c 'mount -o remount' /etc/bash.bashrc ) ]; then
   cat ./bash.bashrc.addon >> /etc/bash.bashrc
 fi
 
+touch /etc/bash.bash_logout
 if [ 0 -eq $( grep -c 'mount -o remount' /etc/bash.bash_logout ) ]; then
   cat ./bash.bash_logout.addon >> /etc/bash.bash_logout
 fi
