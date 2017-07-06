@@ -7,10 +7,10 @@ if [ 'root' != $( whoami ) ] ; then
   exit 1;
 fi
 
-read -r -p "Update apt? (Must be done on a fresh system) [Y/n] " response
-response=${response,,}    # tolower
-if [ "$response" =~ ^(yes|y)$ ]; then
-  apt update
+echo -n "Update apt? (Must be done on a fresh system) [y/N] "
+read answer
+if echo "$answer" | grep -iq "^y" ;then
+  apt update || { echo "Update failed"; exit 1; }
 fi
 
 echo "* Installing some needed software..."
