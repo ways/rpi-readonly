@@ -16,3 +16,8 @@ Tricks for certain apps:
 * Apache2, edit logpath in /etc/apache2/env
 * Chromium-browser, use --user-data-dir /tmp/something
 * Lightdm - fixed via setup.sh if it's installed
+
+Usage after setup:
+* Boot will take slightly longer due to dhcpcd timeout thingy.
+* If you need to change anything, run rw to remount file system read/write. Then ro to make it read only.
+* Logs can be read with the command readlog and readlog -f.

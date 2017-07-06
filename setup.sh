@@ -109,13 +109,13 @@ fi
 
 echo "options bcm2835_wdt nowayout=1" > /etc/modprobe.d/watchdog.conf
 
-echo "Watchdog installed, but not enabled. To enable, run sudo systemctl enable watchdog"
+echo "* Watchdog installed, but not enabled. To enable, run sudo systemctl enable watchdog"
 
 #TODO: systemd watchdog? make repeatable
 #echo "WantedBy=multi-user.target" >> /lib/systemd/system/watchdog.service
 
-echo "Configuring kernel to auto reboot on panic."
+echo "* Configuring kernel to auto reboot on panic."
 echo "kernel.panic = 10" > /etc/sysctl.d/01-panic.conf
 
-echo "* Done!"
+echo "* Done! Reboot and hope it will come back up."
 
