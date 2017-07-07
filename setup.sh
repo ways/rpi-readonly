@@ -70,9 +70,9 @@ EOF
 cp /etc/ntp.conf /etc/ntp.conf.backup
 sed -i '/driftfile/c\driftfile \/var\/tmp\/ntp.drift' /etc/ntp.conf
 
-echo "* Disabling bootlofs, console-setup"
-insserv -r bootlogs
-insserv -r console-setup
+#echo "* Disabling bootlofs, console-setup"
+#insserv -r bootlogs
+#insserv -r console-setup
 
 echo "* Setting up tmpfs for lightdm, in case this isn't a headless system."
 #TODO: lightdm config:
