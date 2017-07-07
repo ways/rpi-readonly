@@ -8,6 +8,7 @@ Will also:
 * remove software usually not needed
 
 TODO:
+* Auto edit of fstab adds ro to proc. Must fix!
 * Ask before install/remove software
 * Check all TODOs in setup.sh
 * Check if https://github.com/MarkDurbin104/rPi-ReadOnly has anything I'm missing.
