@@ -14,12 +14,12 @@ if echo "$answer" | grep -iq "^y" ;then
 fi
 
 echo "* Installing some needed software..."
-apt install busybox-syslogd ntp watchdog screen vim-nox
+apt install busybox-syslogd ntp watchdog
 
 echo "*Removing some unneeded software..."
-apt remove --purge wolfram-engine triggerhappy anacron logrotate dphys-swapfile sonic-pi
-aptitude remove
-dpkg --purge rsyslog
+apt remove --purge anacron logrotate dphys-swapfile rsyslog
+#aptitude remove
+#dpkg --purge rsyslog
 
 echo "* Changing boot up parameters."
 cp /boot/cmdline.txt /boot/cmdline.txt.backup
@@ -42,12 +42,14 @@ rm /var/lib/systemd/random-seed && \
   ln -s /tmp/random-seed /var/lib/systemd/random-seed
 
 cp /lib/systemd/system/systemd-random-seed.service /lib/systemd/system/systemd-random-seed.service.backup
-echo "[Service]
+cat > /lib/systemd/system/systemd-random-seed.service << EOF
+[Service]
 Type=oneshot
 RemainAfterExit=yes
 ExecStartPre=/bin/echo '' >/tmp/random-seed
 ExecStart=/lib/systemd/systemd-random-seed load
-ExecStop=/lib/systemd/systemd-random-seed save" > /lib/systemd/system/systemd-random-seed.service
+ExecStop=/lib/systemd/systemd-random-seed save
+EOF
 
 systemctl daemon-reload
 
