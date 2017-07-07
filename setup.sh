@@ -82,7 +82,8 @@ mkdir -p /var/lib/lightdm
 echo "* Setting fs as ro in fstab"
 if [ 0 -eq $( grep -c ',ro' /etc/fstab ) ]; then
   cp /etc/fstab /etc/fstab.backup
-  sed -i "s/defaults/defaults,ro/g" /etc/fstab
+  sed -i "/boot/ s/defaults/defaults,ro/g" /etc/fstab
+  sed -i "/ext4/ s/defaults/defaults,ro/g" /etc/fstab
 
   echo "
   tmpfs           /tmp            tmpfs   nosuid,nodev         0       0
