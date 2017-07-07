@@ -3,6 +3,8 @@ Make raspberry pi raspbian file system read-only
 
 Based on https://hallard.me/raspberry-pi-read-only/
 
+Tested OK on 2017-04-10-raspbian-jessie*.img
+
 Will also:
 * prepare but not enable watchdog.
 * remove software usually not needed
