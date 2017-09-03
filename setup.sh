@@ -1,6 +1,6 @@
 #!/bin/bash
 
-echo "Warning: this will not ask questions, just go for it. Backups are made where it makes sense, but please don't run this on anything but a fresh install of Raspbian (jessie or jessie lite). Run as root ( sudo ${0} )."
+echo "Warning: this will not ask questions, just go for it. Backups are made where it makes sense, but please don't run this on anything but a fresh install of Raspbian (jessie/stretch [lite]). Run as root ( sudo ${0} )."
 
 if [ 'root' != $( whoami ) ] ; then
   echo "Please run as root!"
@@ -35,8 +35,7 @@ touch /tmp/dhcpcd.resolv.conf;
 ln -s /tmp/dhcpcd.resolv.conf /etc/resolv.conf
 
 echo "* Moving pids and other files to tmpfs"
-cp /etc/systemd/system/dhcpcd5 /etc/systemd/system/dhcpcd5.backup && \
-  sed -i '/PIDFile/c\PIDFile=\/var\/run\/dhcpcd.pid' /etc/systemd/system/dhcpcd5
+sed -i.bak '/PIDFile/c\PIDFile=\/var\/run\/dhcpcd.pid' /etc/systemd/system/dhcpcd5.service
 
 rm /var/lib/systemd/random-seed && \
   ln -s /tmp/random-seed /var/lib/systemd/random-seed
@@ -70,19 +69,17 @@ EOF
 cp /etc/ntp.conf /etc/ntp.conf.backup
 sed -i '/driftfile/c\driftfile \/var\/tmp\/ntp.drift' /etc/ntp.conf
 
-#echo "* Disabling bootlofs, console-setup"
+#echo "* Disabling bootlogs, console-setup"
 #insserv -r bootlogs
 #insserv -r console-setup
 
 echo "* Setting up tmpfs for lightdm, in case this isn't a headless system."
-#TODO: lightdm config:
-# set user-authority-in-system-dir=true in /etc/lightdm/lightdm.conf
+sed -i.bak '/user-authority-in-system-dir/c\user-authority-in-system-dir=true' /etc/lightdm/lightdm.conf
 mkdir -p /var/lib/lightdm
 
-echo "* Setting fs as ro in fstab"
+echo "* Setting fs as ro in fstab (unless something is set ro already)"
 if [ 0 -eq $( grep -c ',ro' /etc/fstab ) ]; then
-  cp /etc/fstab /etc/fstab.backup
-  sed -i "/boot/ s/defaults/defaults,ro/g" /etc/fstab
+  sed -i.bak "/boot/ s/defaults/defaults,ro/g" /etc/fstab
   sed -i "/ext4/ s/defaults/defaults,ro/g" /etc/fstab
 
   echo "
@@ -92,7 +89,7 @@ if [ 0 -eq $( grep -c ',ro' /etc/fstab ) ]; then
   tmpfs           /var/tmp        tmpfs   nosuid,nodev         0       0" >> /etc/fstab
 fi
 
-echo "* Modifying bash rc"
+echo "* Modifying bashrc"
 if [ 0 -eq $( grep -c 'mount -o remount' /etc/bash.bashrc ) ]; then
   cat ./bash.bashrc.addon >> /etc/bash.bashrc
 fi
@@ -112,10 +109,11 @@ fi
 
 echo "options bcm2835_wdt nowayout=1" > /etc/modprobe.d/watchdog.conf
 
-echo "* Watchdog installed, but not enabled. To enable, run sudo systemctl enable watchdog"
+echo "* Watchdog installed (but not enabled? To enable, run sudo systemctl enable watchdog)"
 
-#TODO: systemd watchdog? make repeatable
-#echo "WantedBy=multi-user.target" >> /lib/systemd/system/watchdog.service
+if [ 0 -eq $( grep -c 'WantedBy' /lib/systemd/system/watchdog.service ) ]; then
+  echo "WantedBy=multi-user.target" >> /lib/systemd/system/watchdog.service
+fi
 
 echo "* Configuring kernel to auto reboot on panic."
 echo "kernel.panic = 10" > /etc/sysctl.d/01-panic.conf
