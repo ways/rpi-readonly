@@ -93,7 +93,8 @@ if [ 0 -eq $( grep -c ',ro' /etc/fstab ) ]; then
   echo "
   tmpfs           /tmp            tmpfs   nosuid,nodev         0       0
   tmpfs           /var/log        tmpfs   nosuid,nodev         0       0
-  tmpfs           /var/tmp        tmpfs   nosuid,nodev         0       0" >> /etc/fstab
+  tmpfs           /var/tmp        tmpfs   nosuid,nodev         0       0
+  tmpfs           /var/lib/sudo/ts tmpfs  nosuid,nodev         0       0" >> /etc/fstab
 fi
 
 echo "* Modifying bashrc"
