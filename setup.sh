@@ -21,10 +21,11 @@ apt remove --purge anacron logrotate dphys-swapfile rsyslog
 
 echo "* Changing boot up parameters."
 cp /boot/cmdline.txt /boot/cmdline.txt.backup
-echo "dwc_otg.lpm_enable=0 console=serial0,115200 console=tty1 root=PARTUUID=0866ac92-02 rootfstype=ext4 elevator=deadline fsck.repair=yes rootwait noswap ro fastboot" > /boot/cmdline.txt
+uuid=`grep '/ ' /etc/fstab | awk -F'[=]' '{print $2}' | awk '{print $1}'`
+echo "dwc_otg.lpm_enable=0 console=serial0,115200 console=tty1 root=PARTUUID=$uuid rootfstype=ext4 elevator=deadline fsck.repair=yes rootwait noswap ro fastboot" > /boot/cmdline.txt
 
 echo "* Move resolv.conf to tmpfs."
-mv /etc/resolv.conf/tmp/dhcpcd.resolv.conf
+mv /etc/resolv.conf /tmp/dhcpcd.resolv.conf
 ln -s /tmp/dhcpcd.resolv.conf /etc/resolv.conf
 
 echo "* Moving pids and other files to tmpfs"
@@ -92,7 +93,8 @@ if [ 0 -eq $( grep -c ',ro' /etc/fstab ) ]; then
   echo "
   tmpfs           /tmp            tmpfs   nosuid,nodev         0       0
   tmpfs           /var/log        tmpfs   nosuid,nodev         0       0
-  tmpfs           /var/tmp        tmpfs   nosuid,nodev         0       0" >> /etc/fstab
+  tmpfs           /var/tmp        tmpfs   nosuid,nodev         0       0
+  tmpfs           /var/lib/sudo/ts tmpfs  nosuid,nodev         0       0" >> /etc/fstab
 fi
 
 echo "* Modifying bashrc"
