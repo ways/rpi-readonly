@@ -3,11 +3,10 @@ Make raspberry pi raspbian file system read-only
 
 Based on https://hallard.me/raspberry-pi-read-only/
 
-* setup.sh - Tested OK on 2017-08-16-raspbian-stretch*.img
+* setup.sh - Tested OK on 2017-11-29-raspbian-stretch*.img
 * Old version named setup.sh.jessie - Tested OK on 2017-04-10-raspbian-jessie*.img
 
 TODO:
-* Ask before install/remove software
 * Check if https://github.com/MarkDurbin104/rPi-ReadOnly has anything I'm missing.
 * Watchdog
 

@@ -14,10 +14,10 @@ if echo "$answer" | grep -iq "^y" ;then
 fi
 
 echo "* Installing some needed software..."
-apt install busybox-syslogd ntp watchdog
+apt install -y busybox-syslogd ntp # watchdog
 
 echo "*Removing some unneeded software..."
-apt remove --purge anacron logrotate dphys-swapfile rsyslog
+apt remove -y --purge anacron logrotate dphys-swapfile rsyslog
 
 echo "* Changing boot up parameters."
 cp /boot/cmdline.txt /boot/cmdline.txt.backup
@@ -28,8 +28,8 @@ echo "* Move resolv.conf to tmpfs."
 mv /etc/resolv.conf /tmp/dhcpcd.resolv.conf
 ln -s /tmp/dhcpcd.resolv.conf /etc/resolv.conf
 
-echo "* Moving pids and other files to tmpfs"
-sed -i.bak '/PIDFile/c\PIDFile=\/run\/dhcpcd.pid' /etc/systemd/system/dhcpcd5.service
+#echo "* Moving pids and other files to tmpfs"
+#sed -i.bak '/PIDFile/c\PIDFile=\/run\/dhcpcd.pid' /etc/systemd/system/dhcpcd5.service
 
 rm /var/lib/systemd/random-seed && \
   ln -s /tmp/random-seed /var/lib/systemd/random-seed
@@ -78,8 +78,7 @@ if (command -v fake-hwclock >/dev/null 2>&1) ; then
 fi
 EOF
 
-cp /etc/ntp.conf /etc/ntp.conf.backup
-sed -i '/driftfile/c\driftfile /tmp\/ntp.drift' /etc/ntp.conf
+sed -i.bak '/driftfile/c\driftfile /tmp\/ntp.drift' /etc/ntp.conf
 
 echo "* Setting up tmpfs for lightdm, in case this isn't a headless system."
 ln -fs /tmp/.Xauthority /home/pi/.Xauthority
@@ -91,10 +90,11 @@ if [ 0 -eq $( grep -c ',ro' /etc/fstab ) ]; then
   sed -i "/ext4/ s/defaults/defaults,ro/g" /etc/fstab
 
   echo "
-  tmpfs           /tmp            tmpfs   nosuid,nodev         0       0
-  tmpfs           /var/log        tmpfs   nosuid,nodev         0       0
-  tmpfs           /var/tmp        tmpfs   nosuid,nodev         0       0
-  tmpfs           /var/lib/sudo/ts tmpfs  nosuid,nodev         0       0" >> /etc/fstab
+  tmpfs           /tmp             tmpfs   nosuid,nodev         0       0
+  tmpfs           /var/log         tmpfs   nosuid,nodev         0       0
+  tmpfs           /var/tmp         tmpfs   nosuid,nodev         0       0
+  tmpfs           /var/lib/dhcpcd5 tmpfs   nosuid,nodev         0       0
+  tmpfs           /var/lib/sudo/ts tmpfs   nosuid,nodev         0       0" >> /etc/fstab
 fi
 
 echo "* Modifying bashrc"
