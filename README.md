@@ -14,6 +14,7 @@ Tricks for certain apps:
 * Apache2, edit logpath in /etc/apache2/env
 * Chromium-browser, use --user-data-dir /tmp/something
 * Lightdm - fixed via setup.sh
+* Rpi-Cam-Web-Interface: mount /var/www/html/media/ on tmpfs or external rw disk
 
 Usage after setup:
 * If you need to change anything, run rw to remount file system read/write. Then ro to make it read only.
